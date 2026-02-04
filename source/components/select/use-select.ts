@@ -10,12 +10,24 @@ export type UseSelectProps = {
 	isDisabled?: boolean;
 
 	/**
+	 * When false, component yields keyboard input to other handlers.
+	 * Use for focus arbitration between multiple interactive components.
+	 *
+	 * @default true
+	 */
+	isActive?: boolean;
+
+	/**
 	 * Select state.
 	 */
 	state: SelectState;
 };
 
-export const useSelect = ({isDisabled = false, state}: UseSelectProps) => {
+export const useSelect = ({
+	isDisabled = false,
+	isActive = true,
+	state,
+}: UseSelectProps) => {
 	useInput(
 		(_input, key) => {
 			if (key.downArrow) {
@@ -30,6 +42,6 @@ export const useSelect = ({isDisabled = false, state}: UseSelectProps) => {
 				state.selectFocusedOption();
 			}
 		},
-		{isActive: !isDisabled},
+		{isActive: !isDisabled && isActive},
 	);
 };

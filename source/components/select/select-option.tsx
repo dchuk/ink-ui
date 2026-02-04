@@ -16,6 +16,13 @@ export type SelectOptionProps = {
 	readonly isSelected: boolean;
 
 	/**
+	 * When false, shows dimmed visual state indicating the component doesn't have focus.
+	 *
+	 * @default true
+	 */
+	readonly isActive?: boolean;
+
+	/**
 	 * Option label.
 	 */
 	readonly children: ReactNode;
@@ -24,15 +31,22 @@ export type SelectOptionProps = {
 export function SelectOption({
 	isFocused,
 	isSelected,
+	isActive = true,
 	children,
 }: SelectOptionProps) {
 	const {styles} = useComponentTheme<Theme>('Select');
 
 	return (
 		<Box {...styles.option({isFocused})}>
-			{isFocused && <Text {...styles.focusIndicator()}>{figures.pointer}</Text>}
+			{isFocused && (
+				<Text dimColor={!isActive} {...styles.focusIndicator()}>
+					{figures.pointer}
+				</Text>
+			)}
 
-			<Text {...styles.label({isFocused, isSelected})}>{children}</Text>
+			<Text dimColor={isFocused && !isActive} {...styles.label({isFocused, isSelected})}>
+				{children}
+			</Text>
 
 			{isSelected && (
 				<Text {...styles.selectedIndicator()}>{figures.tick}</Text>

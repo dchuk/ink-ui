@@ -16,6 +16,14 @@ export type SelectProps = {
 	readonly isDisabled?: boolean;
 
 	/**
+	 * When false, component yields keyboard input to other handlers.
+	 * Use for focus arbitration between multiple interactive components.
+	 *
+	 * @default true
+	 */
+	readonly isActive?: boolean;
+
+	/**
 	 * Number of visible options.
 	 *
 	 * @default 5
@@ -45,6 +53,7 @@ export type SelectProps = {
 
 export function Select({
 	isDisabled = false,
+	isActive = true,
 	visibleOptionCount = 5,
 	highlightText,
 	options,
@@ -58,7 +67,7 @@ export function Select({
 		onChange,
 	});
 
-	useSelect({isDisabled, state});
+	useSelect({isDisabled, isActive, state});
 
 	const {styles} = useComponentTheme<Theme>('Select');
 
@@ -85,6 +94,7 @@ export function Select({
 						key={option.value}
 						isFocused={!isDisabled && state.focusedValue === option.value}
 						isSelected={state.value === option.value}
+						isActive={isActive}
 					>
 						{label}
 					</SelectOption>
