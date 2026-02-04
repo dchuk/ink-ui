@@ -44,7 +44,10 @@ export function SelectOption({
 				</Text>
 			)}
 
-			<Text dimColor={isFocused && !isActive} {...styles.label({isFocused, isSelected})}>
+			<Text
+				dimColor={isFocused && !isActive}
+				{...styles.label({isFocused, isSelected})}
+			>
 				{children}
 			</Text>
 
