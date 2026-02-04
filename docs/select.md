@@ -211,6 +211,36 @@ Default: `false`
 
 When disabled, user input is ignored.
 
+### isActive
+
+Type: `boolean`\
+Default: `true`
+
+When `false`, the Select component ignores keyboard input, allowing other components to handle keys. Use this for focus arbitration in UIs where multiple interactive components share the screen but only one should be active at a time.
+
+Unlike `isDisabled`, the focused option still shows (dimmed) and the component remains visually present - it just doesn't respond to input.
+
+```tsx
+import React, {useState} from 'react';
+import {Box} from 'ink';
+import {Select} from '@inkjs/ui';
+
+function Example() {
+	const [focusTarget, setFocusTarget] = useState('menu');
+
+	return (
+		<Box flexDirection="column">
+			<Table isActive={focusTarget === 'table'} />
+			<Select
+				isActive={focusTarget === 'menu'}
+				options={options}
+				onChange={handleChange}
+			/>
+		</Box>
+	);
+}
+```
+
 ### visibleOptionCount
 
 Type: `number`\
