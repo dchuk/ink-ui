@@ -374,3 +374,76 @@ test('highlight text in options', t => {
 		].join('\n'),
 	);
 });
+
+test('ignore input when isActive is false', async t => {
+	let value: string | undefined;
+
+	const {stdin} = render(
+		<Select
+			isActive={false}
+			options={options}
+			onChange={newValue => {
+				value = newValue;
+			}}
+		/>,
+	);
+
+	t.is(value, undefined);
+
+	await delay(50);
+	stdin.write(arrowDown);
+	await delay(50);
+
+	t.is(value, undefined);
+
+	await delay(50);
+	stdin.write(enter);
+	await delay(50);
+
+	t.is(value, undefined);
+});
+
+test('respond to input when isActive is true (default)', async t => {
+	let value: string | undefined;
+
+	const {stdin} = render(
+		<Select
+			options={options}
+			onChange={newValue => {
+				value = newValue;
+			}}
+		/>,
+	);
+
+	t.is(value, undefined);
+
+	await delay(50);
+	stdin.write(arrowDown);
+	stdin.write(enter);
+	await delay(50);
+
+	t.is(value, 'green');
+});
+
+test('respond to input when isActive is explicitly true', async t => {
+	let value: string | undefined;
+
+	const {stdin} = render(
+		<Select
+			isActive
+			options={options}
+			onChange={newValue => {
+				value = newValue;
+			}}
+		/>,
+	);
+
+	t.is(value, undefined);
+
+	await delay(50);
+	stdin.write(arrowDown);
+	stdin.write(enter);
+	await delay(50);
+
+	t.is(value, 'green');
+});
